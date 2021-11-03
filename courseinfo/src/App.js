@@ -90,7 +90,13 @@ const App = () => {
     },
   ];
 
-  return <Course course={course} />;
+  return (
+    <div>
+      {courses.map((course, id) => (
+        <Course key={id} course={course} />
+      ))}
+    </div>
+  );
 };
 
 export default App;

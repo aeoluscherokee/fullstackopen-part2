@@ -30,6 +30,18 @@ const PersonForm = ({
   );
 };
 
+const Persons = ({ persons }) => {
+  return (
+    <div>
+      {persons.map((person, id) => (
+        <p key={id}>
+          {person.name} {person.number}
+        </p>
+      ))}
+    </div>
+  );
+};
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -82,11 +94,7 @@ const App = () => {
         onNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      {personToShow.map((person, id) => (
-        <p key={id}>
-          {person.name} {person.number}
-        </p>
-      ))}
+      <Persons persons={personToShow} />
     </div>
   );
 };

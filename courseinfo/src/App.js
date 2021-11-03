@@ -31,7 +31,11 @@ const Total = ({ parts }) => {
     return s + p.exercises;
   }, 0);
 
-  return <p>Number of exercises {total}</p>;
+  return (
+    <p>
+      <strong>total of {total} exercises</strong>
+    </p>
+  );
 };
 
 const Course = ({ course }) => {

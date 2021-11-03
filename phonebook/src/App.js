@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: "040-1234567" },
+  ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -37,7 +39,9 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map((person, id) => (
-        <p key={id}>{person.name}</p>
+        <p key={id}>
+          {person.name} {person.number}
+        </p>
       ))}
     </div>
   );

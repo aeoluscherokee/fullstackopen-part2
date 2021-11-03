@@ -8,6 +8,28 @@ const Filter = ({ value, onChange }) => {
   );
 };
 
+const PersonForm = ({
+  onSubmit,
+  newName,
+  newNumber,
+  onNameChange,
+  onNumberChange,
+}) => {
+  return (
+    <form onSubmit={onSubmit}>
+      <div>
+        name: <input value={newName} onChange={onNameChange} />
+      </div>
+      <div>
+        number: <input value={newNumber} onChange={onNumberChange} />
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  );
+};
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -52,17 +74,13 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter value={search} onChange={handleSearchChange} />
       <h2>add new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        onSubmit={addPerson}
+        newName={newName}
+        newNumber={newNumber}
+        onNameChange={handleNameChange}
+        onNumberChange={handleNumberChange}
+      />
       <h2>Numbers</h2>
       {personToShow.map((person, id) => (
         <p key={id}>

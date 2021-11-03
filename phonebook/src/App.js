@@ -55,7 +55,9 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
   const personToShow = showAll
     ? persons
-    : persons.filter((person) => person.name.toLowerCase().includes(search));
+    : persons.filter((person) =>
+        person.name.toLowerCase().includes(search.toLowerCase())
+      );
 
   const addPerson = (event) => {
     event.preventDefault();

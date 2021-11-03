@@ -26,19 +26,12 @@ const Content = (props) => {
   );
 };
 
-const Total = (props) => {
-  const sum = (array) => {
-    for (
-      var index = 0, length = array.length, sum = 0;
-      index < length;
-      sum += array[index++]
-    );
-    return sum;
-  };
-  const exercises = props.parts.map((part) => part.exercises);
-  const result = sum(exercises);
+const Total = ({ parts }) => {
+  const total = parts.reduce((s, p) => {
+    return s + p.exercises;
+  }, 0);
 
-  return <p>Number of exercises {result}</p>;
+  return <p>Number of exercises {total}</p>;
 };
 
 const Course = ({ course }) => {

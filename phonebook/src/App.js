@@ -85,7 +85,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Filter value={search} onChange={handleSearchChange} />
-      <h2>add new</h2>
+      <h3>add new</h3>
       <PersonForm
         onSubmit={addPerson}
         newName={newName}
@@ -93,7 +93,7 @@ const App = () => {
         onNameChange={handleNameChange}
         onNumberChange={handleNumberChange}
       />
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
       <Persons persons={personToShow} />
     </div>
   );

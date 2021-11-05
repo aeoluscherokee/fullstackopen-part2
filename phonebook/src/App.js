@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import getAll, { create } from "./personModules";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -46,9 +46,7 @@ const Persons = ({ persons }) => {
 const App = () => {
   const [persons, setPersons] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
-    });
+    getAll().then((persons) => setPersons(persons));
   }, []);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -63,13 +61,11 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
     const personObject = { name: newName, number: newNumber };
-    axios
-      .post("http://localhost:3001/persons", personObject)
-      .then((response) => {
-        setPersons(persons.concat(personObject));
-        setNewName("");
-      });
-    alert(`${newName} is already added to phonebook`);
+    create(personObject).then((person) => {
+      setPersons(persons.concat(person));
+      setNewName("");
+      alert(`${person.name} is already added to phonebook`);
+    });
   };
 
   const handleNameChange = (event) => {

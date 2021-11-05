@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const Countries = ({ filteredCountries }) => {
+  if (filteredCountries.length <= 10) {
+    return filteredCountries.map((country, id) => (
+      <p key={id}>{country.name.common}</p>
+    ));
+  } else if (filteredCountries === 1) {
+    return filteredCountries.map((country, id) => (
+      <p key={id}>{country.name.common}</p>
+    ));
+  } else if (filteredCountries.length === 0) {
+    return null;
+  } else {
+    return <p>"Too many matches, specify another filter</p>;
+  }
+};
+
 function App() {
   const [allCountries, setAllCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
@@ -25,9 +41,7 @@ function App() {
       <div>
         find countries <input onChange={handleOnSearchChange} />
         <div>
-          {filteredCountries.map((country, id) => (
-            <p key={id}>{country.name.common}</p>
-          ))}
+          <Countries filteredCountries={filteredCountries} />
         </div>
       </div>
     </div>

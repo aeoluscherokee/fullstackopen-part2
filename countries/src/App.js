@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Country = ({ country }) => {
-  console.log(country);
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -19,6 +18,27 @@ const Country = ({ country }) => {
   );
 };
 
+const ShowCountries = ({ country }) => {
+  const [isShow, setIsShow] = useState(false);
+  const handleOnClick = () => {
+    setIsShow(!isShow);
+  };
+  if (isShow) {
+    return (
+      <div>
+        <Country country={country} />
+        <button onClick={handleOnClick}>show</button>
+      </div>
+    );
+  } else {
+    return (
+      <p>
+        {country.name.common} <button onClick={handleOnClick}>show</button>
+      </p>
+    );
+  }
+};
+
 const Countries = ({ filteredCountries }) => {
   if (filteredCountries.length === 1) {
     return <Country country={filteredCountries[0]} />;
@@ -26,7 +46,7 @@ const Countries = ({ filteredCountries }) => {
     return null;
   } else if (filteredCountries.length <= 10) {
     return filteredCountries.map((country, id) => (
-      <p key={id}>{country.name.common}</p>
+      <ShowCountries key={id} country={country} />
     ));
   } else {
     return <p>"Too many matches, specify another filter</p>;

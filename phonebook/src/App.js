@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
 import personService from "./service/person";
 
-const SuccessMessage = ({ message }) => {
-  if (message) {
-    return <h2 className="success-message">{message}</h2>;
-  } else return null;
-};
-
-const ErrorMessage = ({ message }) => {
-  if (message) {
-    return <h2 className="error-message">{message}</h2>;
+const Notification = ({ notification }) => {
+  if (notification) {
+    return <h2 className={notification.type}>{notification.message}</h2>;
   } else return null;
 };
 
@@ -67,8 +61,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
   const [showAll, setShowAll] = useState(true);
-  const [successMessage, setSuccessMessage] = useState();
-  const [errorMessage, setErrorMessage] = useState();
+  const [notification, setNotification] = useState();
   const personToShow = showAll
     ? persons
     : persons.filter((person) =>
@@ -96,15 +89,22 @@ const App = () => {
               )
             )
           );
-        setSuccessMessage(`${existingPerson.name}'s number has been updated`);
-        setTimeout(() => setSuccessMessage(""), 5000);
+
+        setNotification({
+          message: `${existingPerson.name}'s number has been updated`,
+          type: "success-message",
+        });
+        setTimeout(() => setNotification(null), 5000);
       } else return;
     } else {
       personService.create(personObject).then((person) => {
         setPersons(persons.concat(person));
         setNewName("");
-        setSuccessMessage(`${person.name} is already added to phonebook`);
-        setTimeout(() => setSuccessMessage(""), 5000);
+        setNotification({
+          message: `${person.name} is already added to phonebook`,
+          type: "success-message",
+        });
+        setTimeout(() => setNotification(null), 5000);
       });
     }
   };
@@ -118,8 +118,11 @@ const App = () => {
             setPersons(persons.filter((person) => person.name !== name))
           )
           .catch(() => {
-            setErrorMessage(`${name} was already removed from server`);
-            setTimeout(() => setErrorMessage(""), 5000);
+            setNotification({
+              message: `${name} was already removed from server`,
+              type: "error-message",
+            });
+            setTimeout(() => setNotification(null), 5000);
           });
       } else return;
     };
@@ -144,8 +147,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <SuccessMessage message={successMessage} />
-      <ErrorMessage message={errorMessage} />
+      <Notification notification={notification} />
       <Filter value={search} onChange={handleSearchChange} />
       <h3>add new</h3>
       <PersonForm

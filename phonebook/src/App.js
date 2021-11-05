@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
 import personService from "./service/person";
 
+const successMessageStyle = {
+  color: "green",
+  fontStyle: "italic",
+  fontSize: 16,
+};
+
+const SuccessMessage = ({ message }) => {
+  if (message) {
+    return <h2 style={successMessageStyle}>{message}</h2>;
+  } else return null;
+};
+
 const Filter = ({ value, onChange }) => {
   return (
     <div>
@@ -55,6 +67,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [successMessage, setSuccessMessage] = useState();
   const personToShow = showAll
     ? persons
     : persons.filter((person) =>
@@ -82,12 +95,14 @@ const App = () => {
               )
             )
           );
+        setSuccessMessage(`${existingPerson.name}'s number has been updated`);
       } else return;
     } else {
       personService.create(personObject).then((person) => {
         setPersons(persons.concat(person));
         setNewName("");
-        alert(`${person.name} is already added to phonebook`);
+        setSuccessMessage(`${person.name} is already added to phonebook`);
+        setTimeout(() => setSuccessMessage(""), 5000);
       });
     }
   };
@@ -124,6 +139,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <SuccessMessage message={successMessage} />
       <Filter value={search} onChange={handleSearchChange} />
       <h3>add new</h3>
       <PersonForm

@@ -115,6 +115,7 @@ const App = () => {
             )
           );
         setSuccessMessage(`${existingPerson.name}'s number has been updated`);
+        setTimeout(() => setSuccessMessage(""), 5000);
       } else return;
     } else {
       personService.create(personObject).then((person) => {

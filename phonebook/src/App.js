@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import getAll, { create, del } from "./personModules";
+import getAll, { create, del, update } from "./personModules";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -64,17 +64,38 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault();
     const personObject = { name: newName, number: newNumber };
-    create(personObject).then((person) => {
-      setPersons(persons.concat(person));
-      setNewName("");
-      alert(`${person.name} is already added to phonebook`);
-    });
+    const existingPerson = persons.find(
+      (person) => person.name.toLowerCase() === personObject.name.toLowerCase()
+    );
+    if (existingPerson) {
+      if (
+        window.confirm(
+          `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        update(existingPerson.id, personObject).then((response) =>
+          setPersons(
+            persons.map((person) =>
+              person.id !== existingPerson.id ? person : response
+            )
+          )
+        );
+      } else return;
+    } else {
+      create(personObject).then((person) => {
+        setPersons(persons.concat(person));
+        setNewName("");
+        alert(`${person.name} is already added to phonebook`);
+      });
+    }
   };
 
   const deletePerson = (id, name) => {
     const handleDelete = () => {
       if (window.confirm("Delete", name)) {
-        del(id).then((persons) => setPersons(persons));
+        del(id).then(() =>
+          setPersons(persons.filter((person) => person.name !== name))
+        );
       } else return;
     };
     return handleDelete;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import getAll, { create } from "./personModules";
+import getAll, { create, del } from "./personModules";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -31,12 +31,15 @@ const PersonForm = ({
   );
 };
 
-const Persons = ({ persons }) => {
+const Persons = ({ persons, onDeletePerson }) => {
   return (
     <div>
       {persons.map((person, id) => (
         <p key={id}>
           {person.name} {person.number}
+          <button onClick={onDeletePerson(person.id, person.name)}>
+            delete
+          </button>
         </p>
       ))}
     </div>
@@ -68,6 +71,15 @@ const App = () => {
     });
   };
 
+  const deletePerson = (id, name) => {
+    const handleDelete = () => {
+      if (window.confirm("Delete", name)) {
+        del(id).then((persons) => setPersons(persons));
+      } else return;
+    };
+    return handleDelete;
+  };
+
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -97,7 +109,7 @@ const App = () => {
         onNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons persons={personToShow} />
+      <Persons persons={personToShow} onDeletePerson={deletePerson} />
     </div>
   );
 };

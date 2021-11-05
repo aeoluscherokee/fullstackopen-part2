@@ -4,7 +4,10 @@ import personService from "./service/person";
 const successMessageStyle = {
   color: "green",
   fontStyle: "italic",
-  fontSize: 16,
+  fontSize: 20,
+  backgroundColor: "lightgrey",
+  border: "2px solid green",
+  padding: 2,
 };
 
 const SuccessMessage = ({ message }) => {
@@ -16,7 +19,10 @@ const SuccessMessage = ({ message }) => {
 const errorMessageStyle = {
   color: "red",
   fontStyle: "italic",
-  fontSize: 16,
+  fontSize: 20,
+  backgroundColor: "lightgrey",
+  border: "2px solid red",
+  padding: 2,
 };
 
 const ErrorMessage = ({ message }) => {

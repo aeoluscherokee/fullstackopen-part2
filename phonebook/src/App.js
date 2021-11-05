@@ -1,33 +1,15 @@
 import React, { useState, useEffect } from "react";
 import personService from "./service/person";
 
-const successMessageStyle = {
-  color: "green",
-  fontStyle: "italic",
-  fontSize: 20,
-  backgroundColor: "lightgrey",
-  border: "2px solid green",
-  padding: 2,
-};
-
 const SuccessMessage = ({ message }) => {
   if (message) {
-    return <h2 style={successMessageStyle}>{message}</h2>;
+    return <h2 className="success-message">{message}</h2>;
   } else return null;
-};
-
-const errorMessageStyle = {
-  color: "red",
-  fontStyle: "italic",
-  fontSize: 20,
-  backgroundColor: "lightgrey",
-  border: "2px solid red",
-  padding: 2,
 };
 
 const ErrorMessage = ({ message }) => {
   if (message) {
-    return <h2 style={errorMessageStyle}>{message}</h2>;
+    return <h2 className="error-message">{message}</h2>;
   } else return null;
 };
 

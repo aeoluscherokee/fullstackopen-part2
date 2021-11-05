@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import getAll, { create, del, update } from "./personModules";
+import personService from "./service/person";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -49,7 +49,7 @@ const Persons = ({ persons, onDeletePerson }) => {
 const App = () => {
   const [persons, setPersons] = useState([]);
   useEffect(() => {
-    getAll().then((persons) => setPersons(persons));
+    personService.getAll().then((persons) => setPersons(persons));
   }, []);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -73,16 +73,18 @@ const App = () => {
           `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
         )
       ) {
-        update(existingPerson.id, personObject).then((response) =>
-          setPersons(
-            persons.map((person) =>
-              person.id !== existingPerson.id ? person : response
+        personService
+          .update(existingPerson.id, personObject)
+          .then((response) =>
+            setPersons(
+              persons.map((person) =>
+                person.id !== existingPerson.id ? person : response
+              )
             )
-          )
-        );
+          );
       } else return;
     } else {
-      create(personObject).then((person) => {
+      personService.create(personObject).then((person) => {
         setPersons(persons.concat(person));
         setNewName("");
         alert(`${person.name} is already added to phonebook`);
@@ -93,9 +95,11 @@ const App = () => {
   const deletePerson = (id, name) => {
     const handleDelete = () => {
       if (window.confirm("Delete", name)) {
-        del(id).then(() =>
-          setPersons(persons.filter((person) => person.name !== name))
-        );
+        personService
+          .del(id)
+          .then(() =>
+            setPersons(persons.filter((person) => person.name !== name))
+          );
       } else return;
     };
     return handleDelete;

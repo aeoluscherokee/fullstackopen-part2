@@ -13,6 +13,18 @@ const SuccessMessage = ({ message }) => {
   } else return null;
 };
 
+const errorMessageStyle = {
+  color: "red",
+  fontStyle: "italic",
+  fontSize: 16,
+};
+
+const ErrorMessage = ({ message }) => {
+  if (message) {
+    return <h2 style={errorMessageStyle}>{message}</h2>;
+  } else return null;
+};
+
 const Filter = ({ value, onChange }) => {
   return (
     <div>
@@ -68,6 +80,7 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [showAll, setShowAll] = useState(true);
   const [successMessage, setSuccessMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState();
   const personToShow = showAll
     ? persons
     : persons.filter((person) =>
@@ -109,12 +122,16 @@ const App = () => {
 
   const deletePerson = (id, name) => {
     const handleDelete = () => {
-      if (window.confirm("Delete", name)) {
+      if (window.confirm(`Delete ${name}?`)) {
         personService
           .del(id)
           .then(() =>
             setPersons(persons.filter((person) => person.name !== name))
-          );
+          )
+          .catch(() => {
+            setErrorMessage(`${name} was already removed from server`);
+            setTimeout(() => setErrorMessage(""), 5000);
+          });
       } else return;
     };
     return handleDelete;
@@ -135,11 +152,11 @@ const App = () => {
       setShowAll(true);
     }
   };
-
   return (
     <div>
       <h2>Phonebook</h2>
       <SuccessMessage message={successMessage} />
+      <ErrorMessage message={errorMessage} />
       <Filter value={search} onChange={handleSearchChange} />
       <h3>add new</h3>
       <PersonForm

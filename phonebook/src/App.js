@@ -67,9 +67,14 @@ const App = () => {
       if (window.confirm(`Delete ${name}?`)) {
         personService
           .del(id)
-          .then(() =>
-            setPersons(persons.filter((person) => person.name !== name))
-          )
+          .then(() => {
+            setPersons(persons.filter((person) => person.name !== name));
+            setNotification({
+              message: `${name} has been deleted`,
+              type: "success-message",
+            });
+            setTimeout(() => setNotification(null), 5000);
+          })
           .catch(() => {
             setNotification({
               message: `${name} was already removed from server`,

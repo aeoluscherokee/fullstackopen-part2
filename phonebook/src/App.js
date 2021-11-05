@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import personService from "./service/person";
+import personService from "./services/person";
 
 const Notification = ({ notification }) => {
   if (notification) {

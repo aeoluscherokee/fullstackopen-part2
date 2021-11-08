@@ -35,30 +35,52 @@ const App = () => {
       ) {
         personService
           .update(existingPerson.id, personObject)
-          .then((response) =>
+          .then((response) => {
             setPersons(
               persons.map((person) =>
                 person.id !== existingPerson.id ? person : response
               )
-            )
-          );
-
-        setNotification({
-          message: `${existingPerson.name}'s number has been updated`,
-          type: "success-message",
-        });
-        setTimeout(() => setNotification(null), 5000);
+            );
+            setNewName("");
+            setNewNumber("");
+            setNotification({
+              message: `${existingPerson.name}'s number has been updated`,
+              type: "success-message",
+            });
+            setTimeout(() => setNotification(null), 5000);
+          })
+          .catch((error) => {
+            setNewName("");
+            setNewNumber("");
+            setNotification({
+              message: error.message,
+              type: "error-message",
+            });
+            setTimeout(() => setNotification(null), 5000);
+          });
       } else return;
     } else {
-      personService.create(personObject).then((person) => {
-        setPersons(persons.concat(person));
-        setNewName("");
-        setNotification({
-          message: `${person.name} is already added to phonebook`,
-          type: "success-message",
+      personService
+        .create(personObject)
+        .then((person) => {
+          setPersons(persons.concat(person));
+          setNewName("");
+          setNewNumber("");
+          setNotification({
+            message: `${person.name} is already added to phonebook`,
+            type: "success-message",
+          });
+          setTimeout(() => setNotification(null), 5000);
+        })
+        .catch((error) => {
+          setNewName("");
+          setNewNumber("");
+          setNotification({
+            message: error.message,
+            type: "error-message",
+          });
+          setTimeout(() => setNotification(null), 5000);
         });
-        setTimeout(() => setNotification(null), 5000);
-      });
     }
   };
 

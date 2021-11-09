@@ -98,6 +98,7 @@ const App = () => {
             setTimeout(() => setNotification(null), 5000);
           })
           .catch(() => {
+            setPersons(persons.filter((person) => person.name !== name));
             setNotification({
               message: `${name} was already removed from server`,
               type: "error-message",

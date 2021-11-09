@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import personService from "./services/person";
-import Notification from "./components/Notification";
-import Filter from "./components/Filter";
-import PersonForm from "./components/PersonForm";
-import Persons from "./components/Persons";
+import React, { useState, useEffect } from 'react';
+import personService from './services/person';
+import Notification from './components/Notification';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   useEffect(() => {
     personService.getAll().then((persons) => setPersons(persons));
   }, []);
-  const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState("");
-  const [search, setSearch] = useState("");
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState('');
+  const [search, setSearch] = useState('');
   const [showAll, setShowAll] = useState(true);
   const [notification, setNotification] = useState();
   const personToShow = showAll
@@ -41,20 +41,20 @@ const App = () => {
                 person.id !== existingPerson.id ? person : response
               )
             );
-            setNewName("");
-            setNewNumber("");
+            setNewName('');
+            setNewNumber('');
             setNotification({
               message: `${existingPerson.name}'s number has been updated`,
-              type: "success-message",
+              type: 'success-message',
             });
             setTimeout(() => setNotification(null), 5000);
           })
           .catch((error) => {
-            setNewName("");
-            setNewNumber("");
+            setNewName('');
+            setNewNumber('');
             setNotification({
               message: error.response.data.error,
-              type: "error-message",
+              type: 'error-message',
             });
             setTimeout(() => setNotification(null), 5000);
           });
@@ -64,20 +64,20 @@ const App = () => {
         .create(personObject)
         .then((person) => {
           setPersons(persons.concat(person));
-          setNewName("");
-          setNewNumber("");
+          setNewName('');
+          setNewNumber('');
           setNotification({
             message: `${person.name} is already added to phonebook`,
-            type: "success-message",
+            type: 'success-message',
           });
           setTimeout(() => setNotification(null), 5000);
         })
         .catch((error) => {
-          setNewName("");
-          setNewNumber("");
+          setNewName('');
+          setNewNumber('');
           setNotification({
             message: error.response.data.error,
-            type: "error-message",
+            type: 'error-message',
           });
           setTimeout(() => setNotification(null), 5000);
         });
@@ -93,7 +93,7 @@ const App = () => {
             setPersons(persons.filter((person) => person.name !== name));
             setNotification({
               message: `${name} has been deleted`,
-              type: "success-message",
+              type: 'success-message',
             });
             setTimeout(() => setNotification(null), 5000);
           })
@@ -101,7 +101,7 @@ const App = () => {
             setPersons(persons.filter((person) => person.name !== name));
             setNotification({
               message: `${name} was already removed from server`,
-              type: "error-message",
+              type: 'error-message',
             });
             setTimeout(() => setNotification(null), 5000);
           });
@@ -121,7 +121,7 @@ const App = () => {
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
     setShowAll(false);
-    if (event.target.value === "") {
+    if (event.target.value === '') {
       setShowAll(true);
     }
   };

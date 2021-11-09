@@ -53,7 +53,7 @@ const App = () => {
             setNewName("");
             setNewNumber("");
             setNotification({
-              message: error.message,
+              message: error.response.data.error,
               type: "error-message",
             });
             setTimeout(() => setNotification(null), 5000);
@@ -76,7 +76,7 @@ const App = () => {
           setNewName("");
           setNewNumber("");
           setNotification({
-            message: error.message,
+            message: error.response.data.error,
             type: "error-message",
           });
           setTimeout(() => setNotification(null), 5000);
